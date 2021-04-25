@@ -13,7 +13,7 @@ class Ship {
     this.nationality = nationality
 
     // Stats
-    
+
     // Hardcoded rather than passed in by the constructor?
     this.sailors     = 100  // In Java this should simply be derived off ship type. Unlike Java it's a percentage here, since it's represented by a progress bar. That could be changed if need be, and then the value must simply be converted to percent for that progress bar.
     this.hullHealth = 100
@@ -33,7 +33,7 @@ class Tile {
   constructor(el, row, col) {
     this.el = el
     this.row = row // These are coordinates, not pixel positions.
-    this.col = col 
+    this.col = col
   }
 }
 
@@ -43,17 +43,17 @@ ships_elem = document.getElementById('ships')
 
 // Just a few test ships
 // This is supposed to be what the ships look like when we receive them from Java. The element reference is missing at this point as it's generated in JS, say in place_ships.
-const ship1 = new Ship( null, 1, 1, 5, 90, "Ship of the Line", "Aztec")
-const ship2 = new Ship( null, 2, 1, 3, 30, "Brig", "Aztec" )
-const ship3 = new Ship( null, 3, 3, 4, 330, "Man at War", "Aztec" )
-const ship4 = new Ship( null, 5, 1, 7, 330, "Man at War", "Celts" ) // The enemy!
+const ship1 = new Ship( null, 1, 1, 5, 90, 'Ship of the Line', 'Aztec')
+const ship2 = new Ship( null, 2, 1, 3, 30, 'Brig', 'Aztec' )
+const ship3 = new Ship( null, 3, 3, 4, 330, 'Man at War', 'Aztec' )
+const ship4 = new Ship( null, 5, 1, 7, 330, 'Man at War', 'Celts' ) // The enemy!
 
 // Comment this line to load ships from Java instead (which only partially works)
 ships = [ship1, ship2, ship3, ship4]
 
 // TODO: Hardcoded which nationality the player is for now, just for testing
-player = "Aztec"
-enemy = "Celts"
+player = 'Aztec'
+enemy = 'Celts'
 
 attack_mode = false
 
@@ -129,17 +129,17 @@ function place_tiles() {
   for (var w = 0; w < width; w++) {
 
     for (var h = 0; h < height; h++) {
-      
+
       let div = document.createElement('div')
       div.classList.add('tile', 'basic-tile')  // Add tile and basic-tile CSS classes to the element
       tiles_elem.appendChild(div)               // Add HTML element to the page
       tiles.push( new Tile(div, h, w) )        // Add tile to the tile array: 0,0 - 0,2 - 0,4
 
       var val = h * tile_offset_height
-      div.style.top  += val + "px"
-      div.style.left += (w * tile_offset_width/2)  + "px"
+      div.style.top  += val + 'px'
+      div.style.left += (w * tile_offset_width/2)  + 'px'
       // Different offsets for every second tile
-      if ( w % 2 == 0) { 
+      if ( w % 2 == 0) {
         new_h = Math.floor(tile_offset_height / 2) // Negative to move the tile upwards by half the tile height
         div.style.top  = val + new_h + "px"
       // place_tile_coordinates((h * tile_offset_height), (w * tile_offset_width), h, w*2)
@@ -152,13 +152,13 @@ function place_tiles() {
 // Maybe just for debugging, doesn't quite position the numbers correctly, but it's almost good enough for debug
 function place_tile_coordinates(tile_h, tile_w, row, col) {
   let div = document.createElement('div')
-  div.innerHTML =  row + ", " + col
+  div.innerHTML =  row + ', ' + col
   div.classList.add('tile-coordinate')
   tiles_elem.appendChild(div)
 
-  let cb = document.getElementById("tiles").getBoundingClientRect();
-  div.style.top  = (tile_h - cb.top) + "px"
-  div.style.left = (tile_w - cb.left) + "px"
+  let cb = document.getElementById('tiles').getBoundingClientRect()
+  div.style.top  = (tile_h - cb.top) + 'px'
+  div.style.left = (tile_w - cb.left) + 'px'
 }
 
 // For setting up the match
@@ -167,24 +167,24 @@ function place_ships() {
     let div = document.createElement('div')
     div.classList.add('ship')       // Adding the styling all ships have in common
     shipTypeClass = aShip.type.toLowerCase().replace(/ /g, '-')
-    if (aShip.nationality == player) shipTypeClass += "-player"
-    else if (aShip.nationality == enemy) shipTypeClass += "-enemy"
+    if (aShip.nationality == player) shipTypeClass += '-player'
+    else if (aShip.nationality == enemy) shipTypeClass += '-enemy'
     div.classList.add( shipTypeClass )   // I need to add a class so CSS knows which ship model it for selecting an image to show. Replace replaces all whitespaces with - to turn them into valid CSS class names, and lowercasing to match our own CSS class naming convention.
     ships_elem.appendChild(div)
     aShip.el = div // A reference to this particular ship is saved.
 
-    // Rotate the ship properly 
-    aShip.el.style.transform = "rotate(+" + aShip.direction + "deg)";
+    // Rotate the ship properly
+    aShip.el.style.transform = 'rotate(+' + aShip.direction + 'deg)'
 
     // Put the ship in its proper position on the map
     for (aTile of tiles) {
       if (aTile.row == aShip.row && aTile.col == aShip.col) {
-        let cb = document.getElementById("tiles").getBoundingClientRect();
-        let coords = aTile.el.getBoundingClientRect();
+        let cb = document.getElementById('tiles').getBoundingClientRect()
+        let coords = aTile.el.getBoundingClientRect()
         // aShip.el.style.left = aTile.el.style.left
         // aShip.el.style.top  = aTile.el.style.top
-        aShip.el.style.left = (coords.left - cb.left + 10) + "px" // 40 was adjusted manually to move the ship from the edge of the tile to the center
-        aShip.el.style.top  = (coords.top - cb.top) + "px"
+        aShip.el.style.left = (coords.left - cb.left + 10) + 'px' // 40 was adjusted manually to move the ship from the edge of the tile to the center
+        aShip.el.style.top  = (coords.top - cb.top) + 'px'
         break
       }
     }
@@ -226,7 +226,7 @@ function music_toggle() {
   else audio.pause()
 }
 
-  
+
 // TODO: Prevent ending the turn if there's moves you have to make left, due to speed
 function end_turn() {
   for (aShip of ships) if (aShip.load != 0) aShip.load--
@@ -237,9 +237,9 @@ function end_turn() {
 }
 
 
-// Adding an event listener on the Ships div, used for ship selection below 
+// Adding an event listener on the Ships div, used for ship selection below
 ships_elem.addEventListener('click', function(event) {
-  ship_selection(event.target);
+  ship_selection(event.target)
 })
 
 // TODO: Ideally this border should not rotate with the ship. Tried adding a surrounding div and putting a border on that but it was somewhere else (so i guess it would have to be moved as well, just not rotated?)
@@ -248,13 +248,13 @@ function ship_selection(clicked_ship) {
   // Now we have the ship element. Find the related ship object:
   for (aShip of ships) {
     // Only allow the user to select the ships of their own nationality
-    if (aShip.el == clicked_ship && aShip.nationality == player) { 
+    if (aShip.el == clicked_ship && aShip.nationality == player) {
       ship = aShip
 
       /* Update health bars */
-      document.getElementById('sailors').style.width = ship.sailors + "%"
-      document.getElementById('hull-health').style.width = ship.hullHealth + "%"
-      document.getElementById('sails-health').style.width = ship.sailHealth + "%"
+      document.getElementById('sailors').style.width = ship.sailors + '%'
+      document.getElementById('hull-health').style.width = ship.hullHealth + '%'
+      document.getElementById('sails-health').style.width = ship.sailHealth + '%'
 
       display_current_ammunition() // Update the UI to show the currently loaded ammunition for the current ship
 
@@ -327,10 +327,10 @@ function move() {
       // Moving based off updated coordinates. Almost verbatim copy of the "placing ships algorithm" (changed aShip to ship), so if all this works I should extract this to a method
       for (aTile of tiles) {
         if (aTile.row == ship.row && aTile.col == ship.col) {
-          let cb = document.getElementById("tiles").getBoundingClientRect();
-          let coords = aTile.el.getBoundingClientRect();
-          ship.el.style.left = (coords.left - cb.left + 10) + "px" // The last value was adjusted manually to move the ship from the edge of the tile to the center
-          ship.el.style.top  = (coords.top - cb.top) + "px"
+          let cb = document.getElementById('tiles').getBoundingClientRect()
+          let coords = aTile.el.getBoundingClientRect()
+          ship.el.style.left = (coords.left - cb.left + 10) + 'px' // The last value was adjusted manually to move the ship from the edge of the tile to the center
+          ship.el.style.top  = (coords.top - cb.top) + 'px'
           break
         }
       }
@@ -355,12 +355,12 @@ function move_over_edge() {
   // // Currently it moves left and up equally, which makes sense at 45 degree angles, but we're using 30 degree angles so it should move further on the x-axis than the y-axis
   // // Calculate the move factoring in angles, like base_move * the distance from the nearest 90 degree angle, and base_distance could be 3 or something? Say (90-30) * 3 and (90-60) * 3?
   // if (ship.direction == 30) {
-  //   ship.el.style.left = (curPosLeft - ship_move_distance) + "px"
-  //   ship.el.style.top = (curPosTop - ship_move_distance) + "px"
+  //   ship.el.style.left = (curPosLeft - ship_move_distance) + 'px'
+  //   ship.el.style.top = (curPosTop - ship_move_distance) + 'px'
   // }
   // else if (ship.direction == 330) {
-  //   ship.el.style.left = (curPosLeft - ship_move_distance) + "px"
-  //   ship.el.style.top = (curPosTop + ship_move_distance) + "px"
+  //   ship.el.style.left = (curPosLeft - ship_move_distance) + 'px'
+  //   ship.el.style.top = (curPosTop + ship_move_distance) + 'px'
   // }
 
   //play_sfx(base_path, sounds_sink)
@@ -380,7 +380,7 @@ function turn_clockwise() {
   // if (array_offset == 5) offset = 0
   // else offset = array_offset + 1
 
-  turn_visual("CW")
+  turn_visual('CW')
 }
 
 
@@ -390,7 +390,7 @@ function turn_counter_clockwise() {
   if (ship.direction != 30) ship.direction -= o_degrees
   else ship.direction = 330
 
-  turn_visual("CCW")
+  turn_visual('CCW')
 }
 
 
@@ -400,7 +400,7 @@ async function turn_visual(direction) {
 
   cur_direction = parseInt( ship.el.style.transform.match(/-?\d+/)[0] ) // NOTE: This works as long as I don't use transform for setting anything besides rotation. The last part extracts the first number from the string
 
-  if (direction == "CW") {
+  if (direction == 'CW') {
     ship.el.style.transform = 'rotate(' + (cur_direction + o_degrees) + 'deg)' // Originally I wanted to wrap back to zero once we got over 360 degrees, but then instead of rotating the shortest way round it rotates the long one...
   }
   else {
@@ -409,14 +409,14 @@ async function turn_visual(direction) {
 
   //TODO: BUG!: When await is called you can select a ship, press to rotate, then select another ship before sleep is over, and the newly selected ship moves instead.
   // Ideally we'd suspend all event handlers here until it's over. We can't lock up the UI with busy wait because then it stops the CSS rotation as well.
-  if (ship.type != 'Man at War') await sleep(1700); // Set to whatever the transition duration is (ie. the time it takes to rotate).
+  if (ship.type != 'Man at War') await sleep(1700) // Set to whatever the transition duration is (ie. the time it takes to rotate).
 
   move() // Based on the rules: Turning within a single hex should not be possible?
 }
 
 // Helper method for one of our ways of visually turning a ship
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 
@@ -449,7 +449,7 @@ function attack_mode_toggle() {
       tiles_elem.addEventListener('mousedown', mdown)
 
     }
-    else alert("Your current weapon isn't loaded. You have to wait at least " + ship.load + " turns.")
+    else alert('Your current weapon isn\'t loaded. You have to wait at least ' + ship.load + ' turns.')
   }
 }
 
@@ -469,23 +469,31 @@ function clear_attack_mode() {
 
 }
 
+function party_js_attack (el) {
+    party.sparkles(el, {
+        count: party.variation.range(20, 40),
+    })
+}
+
 function attack(tile_attacked) {
 
   ship.load = 2 // It will be decremented by 1 at the start of the next round, making it reach 0 after two "end turns"
   display_current_ammunition() // Update this as ship.load is now above 0, no longer ready to fire
+  party_js_attack(tile_attacked)
   clear_attack_mode()
   highlight_attack_tile(event.target, false)
+
 
   // Find the coordinates of the targeted tile
   targeted_tile = null
   for (aTile of tiles) {
-    if (aTile.el == tile_attacked) targeted_tile = aTile 
+    if (aTile.el == tile_attacked) targeted_tile = aTile
   }
 
   for (aShip of ships) {
     if (targeted_tile.row == aShip.row && targeted_tile.col == aShip.col) damage_ship(ship, aShip)
   }
-  
+
 }
 
 // TODO: This was just quickly implemented as a demonstration. Obviously > 10 is not a sufficient criterion as it will then become impervious to damage if it reaches fx. 9.
@@ -505,7 +513,7 @@ function damage_ship(current_ship, target_ship) {
 
 function destroy_ship(aShip, sink) {
 
-  aShip.el.parentElement.removeChild(aShip.el) 
+  aShip.el.parentElement.removeChild(aShip.el)
 
   if (sink) play_sfx(base_path, sounds_sink)
 }
@@ -513,7 +521,7 @@ function destroy_ship(aShip, sink) {
 function update_ammunition(ammo_clicked) {
 
   if (ship.load == 0) {
-    alert("The cannon is already loaded. Fire it to be able to reload.")
+    alert('The cannon is already loaded. Fire it to be able to reload.')
     return // Not really necessary as it stands, but...
   }
   else if (ship.currentAmmunitionType == ammo_clicked) return // Don't do anything if clicking the currently selected ammunition
@@ -528,22 +536,22 @@ function update_ammunition(ammo_clicked) {
 
 function display_current_ammunition() {
   switch (ship.currentAmmunitionType) {
-    case CANNON: 
+    case CANNON:
       current = ball
       ds1 = chain; ds2 = grape
       break
-    case CHAIN: 
+    case CHAIN:
       current = chain
       ds1 = ball; ds2 = grape
       break
-    case GRAPE: 
+    case GRAPE:
       current = grape
       ds1 = ball; ds2 = chain
       break
   }
   // Remove the current classes from all ammunition types:
   // Obviously only one can be selected at a time, and as for the active one maybe it already has red and green, where red was added last, and then it will stay red after trying to add the green class, even though the weapon has reloaded.
-  ball.classList.remove('text-success', 'text-danger') 
+  ball.classList.remove('text-success', 'text-danger')
   chain.classList.remove('text-success', 'text-danger')
   grape.classList.remove('text-success', 'text-danger')
 
